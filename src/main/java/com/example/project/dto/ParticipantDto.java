@@ -7,7 +7,13 @@ import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
-//@NoArgsConstructor
+@NoArgsConstructor
 @Builder
 public class ParticipantDto {
+    private String name;
+
+    private String email;
+
+    private String address;
+
 }

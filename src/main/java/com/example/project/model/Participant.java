@@ -29,6 +29,9 @@ public class Participant {
     @Column
     private String address;
 
+    @Column
+    private boolean accepted;
+
     @ManyToMany(mappedBy = "participants")
     private List<Event> eventList;
 }
