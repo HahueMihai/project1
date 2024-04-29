@@ -6,6 +6,8 @@ import com.example.project.dto.ParticipantDto;
 import com.example.project.model.Event;
 import com.example.project.model.Participant;
 import com.example.project.service.EventService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -23,27 +25,32 @@ public class EventController {
     @Autowired
     private EventService eventService;
 
+    @Operation(summary = "Save a participant")
     @RequestMapping(value = "/saveParticipant", method = RequestMethod.POST)
     public Participant saveParticipant(@RequestBody ParticipantDto participantDto) {
         return eventService.createParticipant(participantDto);
     }
 
 
+    @Operation(summary = "Create a new event")
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public Event saveEvent(@RequestBody EventDto eventDto) {
         return eventService.createEvent(eventDto);
     }
 
+    @Operation(summary = "Update an existing event by ID")
     @RequestMapping(value = "/updateById/{id}", method = RequestMethod.POST)
-    public Event updateEventById(@PathVariable("id") Integer id, @RequestBody EventDto eventDto) {
+    public Event updateEventById(@Parameter(description = "ID of the event to update") @PathVariable("id") Integer id, @RequestBody EventDto eventDto) {
         return eventService.updateEventById(id, eventDto);
     }
 
+    @Operation(summary = "Delete an event by title")
     @RequestMapping(value = "/{title}", method = RequestMethod.DELETE)
-    public void deleteEvent(@PathVariable(value = "title") String title) {
+    public void deleteEvent( @Parameter(description = "Title of the event to delete") @PathVariable(value = "title") String title) {
         eventService.deleteEventByTitle(title);
     }
 
+    @Operation(summary = "Get a list of events")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public Page<Event> findAll(@RequestParam(required = false) Instant startTime,
                                @RequestParam(required = false) Instant startTime1,
@@ -53,9 +60,10 @@ public class EventController {
         return eventService.findAll(paging, startTime, startTime1);
     }
 
+    @Operation(summary = "Assign participant to events")
     @RequestMapping(value = "/assignParticipantToEvents", method = RequestMethod.POST)
-    public void assignParticipantToEvents(@RequestParam String participantEmail,
-                                          @RequestBody List<String> eventsList){
+    public void assignParticipantToEvents(@Parameter(description = "Participant email") @RequestParam String participantEmail,
+                                          @Parameter(description = "List of event titles") @RequestBody List<String> eventsList){
        eventService.assigntParticipantToEvents(participantEmail, eventsList);
     }
 
