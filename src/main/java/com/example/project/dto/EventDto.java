@@ -13,7 +13,6 @@ import java.time.Instant;
 @NoArgsConstructor
 @Builder
 public class EventDto {
-    private Integer id;
 
     private String title;
 
